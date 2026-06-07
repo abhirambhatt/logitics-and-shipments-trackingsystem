@@ -1,351 +1,539 @@
 # Logistics & Shipment Tracking System
 
-A backend REST API built using Spring Boot, Spring Security (JWT), Spring Data JPA, Hibernate, and MySQL for managing logistics operations including customers, drivers, warehouses, shipments, shipment tracking, and role-based authentication.
+## Overview
+
+The Logistics Shipment Tracking System is a Spring Boot REST API application developed for managing logistics operations including customer management, driver management, warehouse management, shipment management, authentication, and shipment tracking.
+
+The application follows a layered architecture consisting of Controller, Service, Repository, DTO, Entity, Security, and Exception layers.
+
+It implements JWT Authentication and Role-Based Authorization using Spring Security.
 
 ---
 
-## Tech Stack
+# Features
 
-- Java
-- Spring Boot
-- Spring Security
-- JWT Authentication
-- Spring Data JPA
-- Hibernate
-- MySQL
-- Maven
-- Lombok
-- Postman
-
----
-
-## Features
-
-### Authentication
+## Authentication
 
 - User Registration
 - User Login
 - JWT Token Generation
-- BCrypt Password Encoding
-- Role Based Authorization
+- BCrypt Password Encryption
+- Role-Based Access Control
 
-### Customer Management
+---
+
+## Customer Management
 
 - Create Customer
 - Get Customer By Id
 - Get All Customers
+- Update Customer
 - Delete Customer
 
-### Driver Management
+---
+
+## Driver Management
 
 - Create Driver
 - Get Driver By Id
 - Get All Drivers
+- Update Driver
 - Delete Driver
 
-### Warehouse Management
+---
+
+## Warehouse Management
 
 - Create Warehouse
 - Get Warehouse By Id
 - Get All Warehouses
+- Update Warehouse
 - Delete Warehouse
 
-### Shipment Management
+---
+
+## Shipment Management
 
 - Create Shipment
 - Get Shipment By Id
 - Get All Shipments
-- Delete Shipment
 - Update Shipment Status
+- Delete Shipment
 
-### Tracking Management
+---
 
-- Store Shipment Tracking History
-- View Shipment Tracking History
+## Shipment Tracking
 
-### User Management
+Customers can track their shipment using a Tracking Number (AWB).
 
-- Register User
-- Login User
-- Get All Users
-- Get User By Id
+Tracking Response contains
+
+- Tracking Number
+- Shipment Status
+- Source Address
+- Destination Address
+- Created Date
+- Tracking History
+
+Each Tracking History contains
+
+- Location
+- Status
+- Remarks
+- Created Date
+
+---
+
+# Technology Stack
+
+- Java 21
+- Spring Boot
+- Spring MVC
+- Spring Data JPA
+- Spring Security
+- JWT Authentication
+- Hibernate
+- MySQL
+- Maven
+- Lombok
+- Swagger OpenAPI
 
 ---
 
 # Project Structure
 
 ```
-src
-└── main
-    ├── java
-    │
-    └── com.Logistics.ShipmentsTrackingSystem.Logistics.LSTS
-        │
-        ├── config
-        │   ├── PasswordConfig.java
-        │   └── SecurityConfig.java
-        │
-        ├── controller
-        │   ├── AuthController.java
-        │   ├── CustomerController.java
-        │   ├── DriverController.java
-        │   ├── ShipmentController.java
-        │   ├── UserController.java
-        │   └── WarehouseController.java
-        │
-        ├── dto
-        │   │
-        │   ├── Request
-        │   │   ├── CreateCustomerRequest.java
-        │   │   ├── CreateDriverRequest.java
-        │   │   ├── CreateShipmentRequest.java
-        │   │   ├── CreateWarehouseRequest.java
-        │   │   ├── LoginRequest.java
-        │   │   ├── RegisterRequest.java
-        │   │   └── UpdateShipmentStatusRequest.java
-        │   │
-        │   └── Response
-        │       └── AuthResponse.java
-        │
-        ├── entity
-        │   ├── Customer.java
-        │   ├── Driver.java
-        │   ├── Shipment.java
-        │   ├── TrackingHistory.java
-        │   ├── Users.java
-        │   └── Warehouse.java
-        │
-        ├── enums
-        │   ├── Role.java
-        │   └── ShipmentStatus.java
-        │
-        ├── exception
-        │   ├── ErrorResponse.java
-        │   ├── GlobalExceptionHandler.java
-        │   └── NotFoundException.java
-        │
-        ├── repository
-        │   ├── CustomerRepository.java
-        │   ├── DriverRepository.java
-        │   ├── ShipmentRepository.java
-        │   ├── TrackingHistoryRepository.java
-        │   ├── UserRepository.java
-        │   └── WarehouseRepository.java
-        │
-        ├── security
-        │   ├── JwtFilter.java
-        │   ├── JwtUtil.java
-        │   └── UserCustomDetailsService.java
-        │
-        ├── service
-        │   ├── AuthService.java
-        │   ├── CustomerService.java
-        │   ├── DriverService.java
-        │   ├── ShipmentService.java
-        │   ├── UserService.java
-        │   └── WarehouseService.java
-        │
-        ├── ServiceImpl
-        │   ├── AuthServiceImpl.java
-        │   ├── CustomerServiceImpl.java
-        │   ├── DriverServiceImpl.java
-        │   ├── ShipmentServiceImpl.java
-        │   ├── UserServiceImpl.java
-        │   └── WarehouseServiceImpl.java
-        │
-        └── Application.java
+Logistics.ShipmentsTrackingSystem.Logistics.LSTS
+│
+├── config
+│   ├── OpenApiConfig
+│   ├── PasswordConfig
+│   ├── SecurityConfig
+│   └── SwaggerSecurityConfig
+│
+├── controller
+│   ├── AuthController
+│   ├── CustomerController
+│   ├── DriverController
+│   ├── ShipmentController
+│   ├── TrackingController
+│   ├── UserController
+│   └── WarehouseController
+│
+├── dto
+│   │
+│   ├── Request
+│   │   ├── CreateCustomerRequest
+│   │   ├── CreateDriverRequest
+│   │   ├── CreateShipmentRequest
+│   │   ├── CreateWarehouseRequest
+│   │   ├── LoginRequest
+│   │   ├── RegisterRequest
+│   │   └── UpdateShipmentStatusRequest
+│   │
+│   └── Response
+│       ├── AuthResponse
+│       ├── TrackingHistoryResponse
+│       └── TrackingResponse
+│
+├── entity
+│   ├── Customer
+│   ├── Driver
+│   ├── Shipment
+│   ├── TrackingHistory
+│   ├── Users
+│   └── Warehouse
+│
+├── enums
+│   ├── Role
+│   └── ShipmentStatus
+│
+├── exception
+│   ├── ErrorResponse
+│   ├── GlobalExceptionHandler
+│   └── NotFoundException
+│
+├── repository
+│   ├── CustomerRepository
+│   ├── DriverRepository
+│   ├── ShipmentRepository
+│   ├── TrackingHistoryRepository
+│   ├── UserRepository
+│   └── WarehouseRepository
+│
+├── security
+│   ├── JwtFilter
+│   ├── JwtUtil
+│   └── UserCustomDetailsService
+│
+├── service
+│   ├── AuthService
+│   ├── CustomerService
+│   ├── DriverService
+│   ├── ShipmentService
+│   ├── TrackingService
+│   ├── UserService
+│   └── WarehouseService
+│
+├── ServiceImpl
+│   ├── AuthServiceImpl
+│   ├── CustomerServiceImpl
+│   ├── DriverServiceImpl
+│   ├── ShipmentServiceImpl
+│   ├── TrackingServiceImpl
+│   ├── UserServiceImpl
+│   └── WarehouseServiceImpl
+│
+├── Application.java
+│
+└── resources
 ```
 
 ---
 
-# Entity Relationship
-
-```
-Customer
-    │
-    │ One To Many
-    ▼
-Shipment
-
-Driver
-    │
-    │ One To Many
-    ▼
-Shipment
-
-Shipment
-    │
-    │ One To Many
-    ▼
-TrackingHistory
-
-Shipment
-    │
-    │ Many To Many
-    ▼
-Warehouse
-
-Users
-    │
-    ▼
-Role (ADMIN | MANAGER | EMPLOYEE | USER)
-```
-
----
-
-# API Endpoints
-
-## Authentication
-
-```
-POST   /api/auth/register
-POST   /api/auth/login
-```
-
-## Customer
-
-```
-POST   /api/customer
-GET    /api/customer
-GET    /api/customer/{id}
-DELETE /api/customer/{id}
-```
-
-## Driver
-
-```
-POST   /api/driver
-GET    /api/driver
-GET    /api/driver/{id}
-DELETE /api/driver/{id}
-```
-
-## Shipment
-
-```
-POST   /api/shipment
-GET    /api/shipment
-GET    /api/shipment/{id}
-DELETE /api/shipment/{id}
-PATCH  /api/shipment/{id}/status
-```
-
-## Warehouse
-
-```
-POST   /api/warehouse
-GET    /api/warehouse
-GET    /api/warehouse/{id}
-DELETE /api/warehouse/{id}
-```
+# Database Entities
 
 ## Users
 
 ```
-GET    /api/users
-GET    /api/users/{id}
+id
+username
+password
+role
 ```
 
 ---
 
-# Authentication
-
-Protected APIs require a Bearer Token.
+## Customer
 
 ```
-Authorization: Bearer <JWT_TOKEN>
+id
+customerName
+email
+phoneNumber
+address
 ```
 
 ---
 
-# Role Based Access
+## Driver
 
-| Module | ADMIN | MANAGER | EMPLOYEE | USER |
-|------------|:----:|:----:|:----:|:----:|
-| Register/Login | ✓ | ✓ | ✓ | ✓ |
-| Users | ✓ | ✗ | ✗ | ✗ |
-| Customer | ✗ | ✓ | ✗ | ✗ |
-| Driver | ✓ | ✓ | ✗ | ✗ |
-| Shipment | ✗ | ✓ | ✗ | ✗ |
-| Warehouse | ✓ | ✓ | ✓ | ✗ |
+```
+id
+driverName
+phoneNumber
+licenseNumber
+vehicleNumber
+```
 
 ---
 
-# Business Logic
-
-### Shipment Creation
-
-- Customer must exist
-- Driver must exist
-- Warehouse must exist
-- Tracking number generated automatically
-- Default shipment status is **PENDING**
-- Created date generated automatically
-
-### Shipment Status Update
+## Warehouse
 
 ```
-PENDING
-    │
-    ▼
-PICKED_UP
-    │
-    ▼
-IN_TRANSIT
-    │
-    ▼
-OUT_FOR_DELIVERY
-    │
-    ▼
-DELIVERED
+id
+warehouseName
+location
+capacity
 ```
-
-Every status update creates a Tracking History record.
 
 ---
 
-# Database Tables
+## Shipment
 
 ```
-users
-
+id
+trackingNumber
+weight
+description
+shipmentStatus
+sourceAddress
+destinationAddress
+createdDate
 customer
-
 driver
-
-shipment
-
-tracking_history
-
 warehouse
-
-shipment_warehouse
+trackingHistory
 ```
-  
-# Learning Concepts
-
-- REST API Development
-- Layered Architecture
-- DTO Pattern
-- Repository Pattern
-- Service Layer
-- Exception Handling
-- OneToMany Mapping
-- ManyToOne Mapping
-- ManyToMany Mapping
-- Enum Mapping
-- JWT Authentication
-- Spring Security
-- BCrypt Password Encoding
-- Role Based Authorization
-- Spring Data JPA
-- Hibernate ORM
-- MySQL Integration
 
 ---
+
+## TrackingHistory
+
+```
+id
+location
+status
+remarks
+createdDate
+shipment
+```
+
+---
+
+# Roles
+
+## ADMIN
+
+- Create Users
+- Manage Customers
+- Manage Drivers
+- Manage Warehouses
+- Manage Shipments
+
+---
+
+## MANAGER
+
+- Manage Customers
+- Manage Shipments
+- View Warehouses
+
+---
+
+## EMPLOYEE
+
+- View Warehouses
+- Update Shipment Status
+
+---
+
+## USER
+
+- Login
+- Track Shipment Using Tracking Number
+
+---
+
+# Authentication APIs
+
+## Register
+
+```
+POST /api/auth/register
+```
+
+Request
+
+```json
+{
+    "username": "username001",
+    "password": "password123"
+}
+```
+
+---
+
+## Login
+
+```
+POST /api/auth/login
+```
+
+Request
+
+```json
+{
+    "username": "username001",
+    "password": "password123"
+}
+```
+
+Response
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9..."
+}
+```
+
+---
+
+# Customer APIs
+
+```
+POST    /api/customer
+GET     /api/customer
+GET     /api/customer/{id}
+PUT     /api/customer/{id}
+DELETE  /api/customer/{id}
+```
+
+---
+
+# Driver APIs
+
+```
+POST    /api/driver
+GET     /api/driver
+GET     /api/driver/{id}
+PUT     /api/driver/{id}
+DELETE  /api/driver/{id}
+```
+
+---
+
+# Warehouse APIs
+
+```
+POST    /api/warehouse
+GET     /api/warehouse
+GET     /api/warehouse/{id}
+PUT     /api/warehouse/{id}
+DELETE  /api/warehouse/{id}
+```
+
+---
+
+# Shipment APIs
+
+```
+POST    /api/shipment
+GET     /api/shipment
+GET     /api/shipment/{id}
+PUT     /api/shipment/status/{id}
+DELETE  /api/shipment/{id}
+```
+
+---
+
+# Tracking API
+
+Track shipment using AWB / Tracking Number.
+
+```
+GET /api/tracking/{trackingNumber}
+```
+
+Example
+
+```
+GET /api/tracking/TRK-1780762068938
+```
+
+Sample Response
+
+```json
+{
+    "trackingNumber": "TRK-1780762068938",
+    "shipmentStatus": "IN_TRANSIT",
+    "sourceAddress": "Bangalore",
+    "destinationAddress": "Mysore",
+    "createdDate": "2026-06-07T10:30:00",
+    "trackingHistory": [
+        {
+            "location": "Bangalore Warehouse",
+            "status": "Shipment Picked",
+            "remarks": "Package received",
+            "createdDate": "2026-06-07T11:00:00"
+        },
+        {
+            "location": "Mandya Hub",
+            "status": "In Transit",
+            "remarks": "Shipment moving",
+            "createdDate": "2026-06-08T09:15:00"
+        }
+    ]
+}
+```
+
+---
+
+# Security
+
+JWT Authentication is implemented using
+
+```
+JwtFilter
+JwtUtil
+UserCustomDetailsService
+SecurityConfig
+```
+
+Protected APIs require
+
+```
+Authorization
+
+Bearer <JWT_TOKEN>
+```
+
+---
+
+# Public APIs
+
+```
+POST /api/auth/register
+
+POST /api/auth/login
+
+GET /api/tracking/{trackingNumber}
+```
+
+---
+
+# Exception Handling
+
+Global exception handling is implemented using
+
+```
+GlobalExceptionHandler
+```
+
+Custom exceptions
+
+```
+NotFoundException
+
+ErrorResponse
+```
+
+---
+
+# Run the Project
+
+Clone Repository
+
+```
+git clone https://github.com/yourusername/logistics-shipment-tracking-system.git
+```
+
+Go to project directory
+
+```
+cd logistics-shipment-tracking-system
+```
+
+Configure MySQL
+
+```
+application.properties
+```
+
+Build
+
+```
+mvn clean install
+```
+
+Run
+
+```
+mvn spring-boot:run
+```
+
+---
+
+# Swagger
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
 # Author
 
-**Abhiram Bhatt**
+Abhiram
 
-Backend project developed to practice enterprise-level Spring Boot architecture, secure REST APIs, entity relationships, and JWT-based authentication.
+Java Backend Developer
+
+Spring Boot | Spring Security | JWT | REST APIs | Hibernate | MySQL

@@ -495,7 +495,7 @@ ErrorResponse
 Clone Repository
 
 ```
-git clone https://github.com/yourusername/logistics-shipment-tracking-system.git
+git clone https://github.com/abhiramaab/logistics-shipment-tracking-system.git
 ```
 
 Go to project directory
@@ -527,7 +527,7 @@ mvn spring-boot:run
 # Swagger
 
 ```
-http://localhost:8080/swagger-ui/index.html
+https://project.trackingsystem.abhiram.tech/swagger-ui/index.html
 ```
 
 # Author
